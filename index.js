@@ -4,26 +4,38 @@ const state = {
   teams: []
 }
 
+const main = document.querySelector(`main`);
+
 // Get player data
 const getTeams = async() => {
   try {const response = await fetch (`https://fsa-puppy-bowl.herokuapp.com/api/2406-FTB-ET-WEB-FT/teams`);
   const responseJSON = await response.json();
   state.teams = responseJSON.data.teams;
+
+renderTeams();
+
   } catch(e) {
     alert(e);
   }
-  console.log(state.teams);
 }
 
 getTeams();
 
-  // Render team roster
-    // Grab where list will appear on page
-    // Create ul inside of which players will be listed
-    // Put ul on page
-    // Loop through player list in state and create li for each player
-    // Put each li into ul
-    // Put player name inside each li
+const renderTeams = () => {
+  main.innerHTML = `<h1>Team Ruff Roster</h1>`
+  
+  const ul = document.createElement(`ul`);
+  main.append(ul);
+
+  state.teams[0].players.forEach(player => {
+    li = document.createElement(`li`);
+    li.innerText = player.name;
+    ul.append(li);
+  });
+
+  console.log(state.teams[0].players);
+}
+
 
 // Click on puppy to show details
   // Put event listener on each puppy (use foreach)
