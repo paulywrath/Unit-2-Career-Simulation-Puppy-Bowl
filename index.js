@@ -1,18 +1,15 @@
-// List puppies from API for team Ruff
-
 const state = {
   teams: []
 }
 
 const main = document.querySelector(`main`);
 
-// Get player data
 const getTeams = async() => {
   try {const response = await fetch (`https://fsa-puppy-bowl.herokuapp.com/api/2406-FTB-ET-WEB-FT/teams`);
   const responseJSON = await response.json();
   state.teams = responseJSON.data.teams;
 
-renderTeams();
+  renderTeams();
 
   } catch(e) {
     alert(e);
@@ -28,16 +25,34 @@ const renderTeams = () => {
   main.append(ul);
 
   state.teams[0].players.forEach(player => {
-    li = document.createElement(`li`);
+    const li = document.createElement(`li`);
     li.innerText = player.name;
     ul.append(li);
   });
+    
+  const playerListItems = document.querySelectorAll(`li`);
 
-  console.log(state.teams[0].players);
+  playerListItems.forEach((playerLI) => {
+    playerLI.addEventListener(`click`, (event) => {
+      const teamRuffPlayers = state.teams[0].players;
+      
+      const clickedPlayer = teamRuffPlayers.find((player) => {
+        return player.name === event.target.innerText;
+      }) 
+
+      main.innerHTML = `
+      <h1>Player Details</h1>
+      <img src="${clickedPlayer.imageUrl}" alt="Photo of the player">
+      <h2>Name: ${clickedPlayer.name}</h2>
+      <h2>Breed: ${clickedPlayer.breed}</h2>
+      <button>Back to Roster</button>
+      `
+
+      const button = document.querySelector(`button`);
+
+      button.addEventListener(`click`, () => {
+        renderTeams();
+      })
+    })
+  })
 }
-
-
-// Click on puppy to show details
-  // Put event listener on each puppy (use foreach)
-  // When you click on puppy, re-render page with that puppy's details
-  // Include back button to re-render main list
