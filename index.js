@@ -1,20 +1,41 @@
 // List puppies from API for team Ruff
-  // Make state obj to store data in a player list
 
-  // Get player data
-    // Async function
-      // Await fetch data
-      // Await JSON to make readable- make sure you're receiving the data at the level and in the form that you expect
-      // Store player list in state
-      // Put inside try-catch
+const state = {
+  teams: []
+}
 
-  // Render team roster
-    // Grab where list will appear on page
-    // Create ul inside of which players will be listed
-    // Put ul on page
-    // Loop through player list in state and create li for each player
-    // Put each li into ul
-    // Put player name inside each li
+const main = document.querySelector(`main`);
+
+// Get player data
+const getTeams = async() => {
+  try {const response = await fetch (`https://fsa-puppy-bowl.herokuapp.com/api/2406-FTB-ET-WEB-FT/teams`);
+  const responseJSON = await response.json();
+  state.teams = responseJSON.data.teams;
+
+renderTeams();
+
+  } catch(e) {
+    alert(e);
+  }
+}
+
+getTeams();
+
+const renderTeams = () => {
+  main.innerHTML = `<h1>Team Ruff Roster</h1>`
+  
+  const ul = document.createElement(`ul`);
+  main.append(ul);
+
+  state.teams[0].players.forEach(player => {
+    li = document.createElement(`li`);
+    li.innerText = player.name;
+    ul.append(li);
+  });
+
+  console.log(state.teams[0].players);
+}
+
 
 // Click on puppy to show details
   // Put event listener on each puppy (use foreach)
