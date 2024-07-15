@@ -54,5 +54,13 @@ const renderTeams = () => {
         renderTeams();
       })
     })
+
+    playerLI.addEventListener(`mouseover`, (event) => {
+      event.target.style.fontSize = "larger";
+    }) 
+
+    playerLI.addEventListener(`mouseout`, (event) => {
+      event.target.style.fontSize = "initial";
+    }) 
   })
 }
